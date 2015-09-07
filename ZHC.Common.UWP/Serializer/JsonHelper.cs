@@ -7,13 +7,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ZHC.Common.UWP
+namespace ZHC.Common.UWP.Serializer
 {
     public class JsonHelper
     {
         public static string JsonSerializer<T>(T t)
         {
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+           
+
+             DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
             using (MemoryStream ms = new MemoryStream())
             {
                 ser.WriteObject(ms, t);

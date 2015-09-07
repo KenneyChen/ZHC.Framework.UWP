@@ -11,4 +11,10 @@ namespace ZHC.Common.UWP.Model
         public DateTime ExpirationDate { get; set; }
 
     }
+
+   
+    public class CacheModel<T> : BaseCache
+    {
+        public T Model { get; set; }
+    }
 }

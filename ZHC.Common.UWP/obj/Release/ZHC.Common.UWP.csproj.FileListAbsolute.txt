@@ -1,0 +1,17 @@
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\bin\Release\ZHC.Common.UWP.dll
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\bin\Release\ZHC.Common.UWP.pdb
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\bin\Release\ZHC.Common.UWP.pri
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\ZHC.Common.UWP.dll
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\ZHC.Common.UWP.pdb
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\ResourceHandlingTask.state
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\priconfig.xml
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\priconfig.xml.intermediate
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\layout.resfiles
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\layout.resfiles.intermediate
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\resources.resfiles
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\resources.resfiles.intermediate
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\pri.resfiles
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\pri.resfiles.intermediate
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\qualifiers.txt
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\qualifiers.txt.intermediate
+F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\obj\Release\MultipleQualifiersPerDimensionFound.txt

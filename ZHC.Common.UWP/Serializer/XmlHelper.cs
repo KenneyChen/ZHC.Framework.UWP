@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LYL.Common.RT.Text
+namespace ZHC.Common.UWP.Serializer
 {
     public class XmlHelper
     {
