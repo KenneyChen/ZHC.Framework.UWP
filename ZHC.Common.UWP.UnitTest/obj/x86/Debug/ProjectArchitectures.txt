@@ -1,2 +1,0 @@
-F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP.UnitTest\ZHC.Common.UWP.UnitTest.csproj;x86
-F:\自己代码库\ZHC.Common.UWP\ZHC.Common.UWP\ZHC.Common.UWP.csproj;neutral

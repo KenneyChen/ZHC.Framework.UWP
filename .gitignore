@@ -1,2 +1,8 @@
 /obj
 /DTAR_08E86330_4835_4B5C_9E5A_61F37AE1A077_DTAR
+/Bin
+/*.rar
+/ZHC.Common.UWP/bin
+/ZHC.Common.UWP/obj
+/ZHC.Common.UWP.UnitTest/bin
+/ZHC.Common.UWP.UnitTest/obj
