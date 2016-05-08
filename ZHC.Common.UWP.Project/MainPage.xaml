@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="ZHC.Common.UWP.Project.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ZHC.Common.UWP.Project"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--<TextBlock>
+                <Span>请拿起手机，打开</Span>
+                <Run Text="{Binding ReChargeTypeName}"></Run>
+                <Span>的扫一扫功能</Span>
+                 <Span>
+                     <Run Text="{Binding ReChargeTypeName}" />
+                 </Span>
+        </TextBlock>-->
+        <!--<RichTextBlock>
+            <Paragraph>
+                <Span>
+                    <Span>请拿起手机，打开</Span>
+                    <Run  Text="{Binding ReChargeTypeName}"></Run>
+                    <Span>的扫一扫功能</Span>
+                   
+                        <Run Text="{Binding ReChargeTypeName}" />
+                    
+                </Span>
+            </Paragraph>
+        </RichTextBlock>-->
+        <Button x:Name="button" Click="button_Click" Content="点击" />
+        <!--<Popup IsOpen="True"  HorizontalAlignment="Center" Width="1300">
+            <local:TipsControl HorizontalAlignment="Center" Background="Green" VerticalAlignment="Center" />
+        </Popup>-->
+        <Popup IsOpen="True" Height="50" Width="180" VerticalAlignment="Bottom">
+            <Grid Background="Black">
+                <Grid x:Name="MessageBox" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" Opacity="1"  Width="180" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RenderTransform>
+                        <CompositeTransform TranslateY="-24"/>
+                    </Grid.RenderTransform>
+                    <Rectangle x:Name="MessageBackground" Fill="#FFE6598C" Opacity="0.8"/>
+                    <TextBlock  Foreground="White"  Text="发送成功！:)" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                </Grid>
+            </Grid>
+        </Popup>
+
+    </Grid>
+   
+</Page>

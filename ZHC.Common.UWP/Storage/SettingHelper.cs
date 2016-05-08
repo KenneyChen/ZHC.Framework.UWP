@@ -15,6 +15,32 @@ namespace ZHC.Common.UWP.Storage
     /// </summary>
     public class SettingHelper
     {
+        public static ApplicationDataContainer LocalSettings
+        {
+            get { return ApplicationData.Current.LocalSettings; }
+        }
+
+        public static ApplicationDataContainer RoamingSettings
+        {
+            get { return ApplicationData.Current.RoamingSettings; }
+        }
+
+
+        public static ApplicationDataContainer GetCurrentSettings(SettingType type)
+        {
+            switch (type)
+            {
+                case SettingType.Local:
+                    return LocalSettings;
+                case SettingType.Remote:
+                    return RoamingSettings;
+                case SettingType.Temp:
+                    throw new Exception("未实现");
+                default:
+                    return LocalSettings;
+            }
+        }
+
         /// <summary>
         /// 设置缓存
         /// </summary>
@@ -23,7 +49,7 @@ namespace ZHC.Common.UWP.Storage
         /// <param name="func"></param>
         /// <param name="seconds">等于0永远不过期</param>
         /// <returns></returns>
-        public static T GetCache<T>(string cacheKey, Func<T> func, int seconds = 0)
+        public static T GetCache<T>(string cacheKey, Func<T> func, SettingType type = SettingType.Local, int seconds = 0)
         {
             CacheModel<T> data = null;
             try
@@ -38,7 +64,7 @@ namespace ZHC.Common.UWP.Storage
             {
                 data = new CacheModel<T> { Model = func() };
                 data.ExpirationDate = DateTime.Now;
-                SaveSettings<CacheModel<T>>(cacheKey, data);
+                SaveSettings<CacheModel<T>>(cacheKey, data,type);
             }
 
             return (data ?? new CacheModel<T>()).Model;
@@ -52,12 +78,12 @@ namespace ZHC.Common.UWP.Storage
         /// <param name="func"></param>
         /// <param name="seconds">等于0永远不过期</param>
         /// <returns></returns>
-        public static async Task<T> GetCacheAsync<T>(string cacheKey, Func<Task<T>> func, int seconds = 0)
+        public static async Task<T> GetCacheAsync<T>(string cacheKey, Func<Task<T>> func, int seconds = 0, SettingType type = SettingType.Local)
         {
             CacheModel<T> data = null;
             try
             {
-                data = GetSettings<CacheModel<T>>(cacheKey);
+                data = GetSettings<CacheModel<T>>(cacheKey, type);
             }
             catch (Exception ex)
             {
@@ -68,7 +94,7 @@ namespace ZHC.Common.UWP.Storage
             {
                 data = new CacheModel<T> { Model = await func() };
                 data.ExpirationDate = DateTime.Now;
-                SaveSettings<CacheModel<T>>(cacheKey, data);
+                SaveSettings<CacheModel<T>>(cacheKey, data, type);
             }
 
             return (data ?? new CacheModel<T>()).Model;
@@ -84,70 +110,71 @@ namespace ZHC.Common.UWP.Storage
         /// ()=>{return (T)data;}
         /// </param>
         /// <returns></returns>
-        public static T GetFunc<T>(string cacheKey, int seconds, Func<T> func)
+        public static T GetFunc<T>(string cacheKey, int seconds, Func<T> func, SettingType type = SettingType.Local)
         {
             return DataCache.GetCache<T>(() =>
             {
-                return GetSettings<T>(cacheKey);
+                return GetSettings<T>(cacheKey,type);
             },
             () =>
             {
                 var data = func();
-                SaveSettings<T>(cacheKey, data);
+                SaveSettings<T>(cacheKey, data,type);
                 return data;
             });
         }
 
-        public static T Get<T>(string key, T obj)
-        {
-            var result = GetSettings<T>(key);
-            if (result != null)
-            {
-                return result;
-            }
-            else
-            {
-                SaveSettings<T>(key, obj);
-                return obj;
-            }
-
-        }
+        //public static T Get<T>(string key, T obj)
+        //{
+        //    var result = GetSettings<T>(key);
+        //    if (result != null)
+        //    {
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        SaveSettings<T>(key, obj);
+        //        return obj;
+        //    }
+        //}
 
         #region App Setting
         /// <summary>
         /// 保存string
         /// </summary>
-        public static void SaveStringSettings(string key, string contents)
+        public static void SaveStringSettings(string key, string contents, SettingType type = SettingType.Local)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = contents;
+            var local = GetCurrentSettings(type);
+            local.Values[key] = contents;
         }
 
-        public static void SaveSettings<T>(string key, T t)
+        public static void SaveSettings<T>(string key, T t, SettingType type = SettingType.Local)
         {
-            var local = ApplicationData.Current.LocalSettings;
+            var local = GetCurrentSettings(type);
             var json = JsonHelper.JsonSerializer<T>(t);
             if (local.Values.ContainsKey(key))
             {
                 local.Values.Remove(key);
             }
-            ApplicationData.Current.LocalSettings.Values[key] = json;
+            local.Values[key] = json;
 
         }
 
         /// <summary>
         /// 保存obj
         /// </summary>
-        public static void SaveSettings(string key, object obj)
+        public static void SaveSettings(string key, object obj, SettingType type = SettingType.Local)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = obj;
+            var local = GetCurrentSettings(type);
+            local.Values[key] = obj;
         }
 
         /// <summary>
         /// 获取string设置
         /// </summary>
-        public static string GetSettings(string key)
+        public static string GetSettings(string key, SettingType type = SettingType.Local)
         {
-            var settings = ApplicationData.Current.LocalSettings;
+            var settings = GetCurrentSettings(type);
             if (settings.Values.ContainsKey(key))
             {
                 return (string)settings.Values[key];
@@ -161,9 +188,9 @@ namespace ZHC.Common.UWP.Storage
         /// <summary>
         /// 获取T设置
         /// </summary>
-        public static T GetSettings<T>(string key)
+        public static T GetSettings<T>(string key, SettingType type = SettingType.Local)
         {
-            var settings = ApplicationData.Current.LocalSettings;
+            var settings = GetCurrentSettings(type);
             if (settings.Values.ContainsKey(key))
             {
                 var json = settings.Values[key].ToString();
@@ -178,5 +205,23 @@ namespace ZHC.Common.UWP.Storage
         }
 
         #endregion
+    }
+
+    public enum SettingType
+    {
+        /// <summary>
+        /// 本地
+        /// </summary>
+        Local = 1,
+
+        /// <summary>
+        /// 远程
+        /// </summary>
+        Remote = 2,
+
+        /// <summary>
+        /// 临时
+        /// </summary>
+        Temp = 3,
     }
 }

@@ -12,6 +12,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization.Json;
 using ZHC.Common.UWP.Serializer;
 using ZHC.Common.UWP.Model;
+using ZHC.Common.UWP.IO;
 
 namespace ZHC.Common.UWP.Storage
 {
@@ -47,7 +48,7 @@ namespace ZHC.Common.UWP.Storage
         //}
 
         /// <summary>
-        /// 设置缓存
+        /// 获取缓存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cacheKey"></param>
@@ -177,9 +178,9 @@ namespace ZHC.Common.UWP.Storage
                 var file = await folder.GetFileAsync(path);
                 var contents = await FileIO.ReadTextAsync(file);
 
-                return JsonHelper.JsonToObj<T>(contents);
+                return JsonHelper.DeserializeObject<T>(contents);
             }
-            catch
+            catch (Exception ex)
             {
                 return default(T);
             }
@@ -203,7 +204,7 @@ namespace ZHC.Common.UWP.Storage
             bool result = false;
             try
             {
-                var contents = JsonHelper.JsonSerializer(t);
+                var contents = JsonHelper.SerializeObject(t);
 
                 var folder = ApplicationData.Current.LocalFolder;
                 var file = await folder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);

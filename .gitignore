@@ -6,3 +6,6 @@
 /ZHC.Common.UWP/obj
 /ZHC.Common.UWP.UnitTest/bin
 /ZHC.Common.UWP.UnitTest/obj
+/.vs
+/ZHC.Common.UWP.Project/bin
+/ZHC.Common.UWP.Project/obj

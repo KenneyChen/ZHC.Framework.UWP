@@ -113,7 +113,13 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Animate\SlideInAnimate.cs" />
+    <Compile Include="Controls\TipsControl.xaml.cs">
+      <DependentUpon>TipsControl.xaml</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Modal.cs" />
     <Compile Include="Model\BaseNotify.cs" />
     <Compile Include="DataCache.cs" />
     <Compile Include="Model\BaseCache.cs" />
@@ -121,10 +127,24 @@
     <Compile Include="BaseService.cs" />
     <Compile Include="Storage\SettingHelper.cs" />
     <Compile Include="Storage\StorageHelper.cs" />
-    <Compile Include="StreamHelper.cs" />
+    <Compile Include="IO\StreamHelper.cs" />
     <Compile Include="Serializer\JsonHelper.cs" />
     <Compile Include="Serializer\XmlHelper.cs" />
+    <Compile Include="Toast.cs" />
+    <Compile Include="Utils.cs" />
     <Content Include="Properties\ZHC.Common.UWP.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\TipsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -8,12 +8,13 @@ namespace ZHC.Common.UWP
 {
     public class DataCache
     {
-        public static T GetCache<T>(Func<T> getFunc, Func<T> setFunc)
+
+        public static T GetCache<T>(Func<T> getCache, Func<T> setCache)
         {
-            T data = getFunc();
+            T data = getCache();
             if (data == null)
             {
-                data = setFunc();
+                data = setCache();
             }
             return data;
         }

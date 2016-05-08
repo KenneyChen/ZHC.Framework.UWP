@@ -11,10 +11,18 @@ namespace ZHC.Common.UWP.Serializer
 {
     public class JsonHelper
     {
+        public static string SerializeObject<T>(T t)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(t);
+        }
+
+        public static T DeserializeObject<T>(string jsonString)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonString);
+        }
+
         public static string JsonSerializer<T>(T t)
         {
-           
-
              DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
             using (MemoryStream ms = new MemoryStream())
             {
@@ -26,8 +34,6 @@ namespace ZHC.Common.UWP.Serializer
                     string jsonString = sr.ReadToEnd();
                     return jsonString;
                 }
-
-
             }
         }
 

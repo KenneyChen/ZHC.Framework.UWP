@@ -6,11 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using ZHC.Common.UWP.Serializer;
+using ZHC.Common.UWP.Storage;
 
 namespace ZHC.Common.UWP
 {
     public abstract class BaseService
     {
+        public virtual string FileKey { get { return "FileKey"; } }
+
         protected async Task<T> GetAsync<T>(string uri) where T : class
         {
             // set a timeout of 20s
@@ -45,61 +48,57 @@ namespace ZHC.Common.UWP
             }
         }
 
-        //protected async Task<ResponseResult<T>> Post<T>(string path, List<PostData> data) where T : class, new()
-        //{
-        //    T t = new T();
-        //    ResponseStatus status;
 
-        //    var http = new HttpClient();
 
-        //    var values = new List<KeyValuePair<string, string>>();
+        public async Task<T> GetAll<T>()
+        {
+            return await StorageHelper.ReadTextFileAsync<T>(FileKey);
+        }
 
-        //    foreach (var item in data)
-        //    {
-        //        values.Add(new KeyValuePair<string, string>(item.Key, item.Value));
-        //    }
-        //    var res = await http.PostAsync(new Uri(Constants.BASE_URL + path, UriKind.Absolute), new HttpFormUrlEncodedContent(values));
-        //    if (res.StatusCode == HttpStatusCode.Ok)
-        //    {
-        //        try
-        //        {
-        //            var json = await res.Content.ReadAsStringAsync();
-        //            t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
-        //            status = ResponseStatus.SUCCESS;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            status = ResponseStatus.EXCEPTION;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        status = ResponseStatus.NOT_NETWORK;
-        //    }
+        public async Task<bool> Add<TResult>(TResult model, Func<TResult, bool> predicate)
+        {
+            var isAdd = false;
+            List<TResult> list = await GetAll<List<TResult>>();
+            var ret = new List<TResult>() { };
+            if (list != null && list.Count > 0)
+            {
+                list.ForEach(x => ret.Add(x));
+                if (!list.Any(predicate))
+                {
+                    ret.Add(model);
+                    isAdd = true;
+                }
+            }
+            else
+            {
+                ret.Add(model);
+                isAdd = true;
+            }
 
-        //    return new ResponseResult<T> { Data = t, Code = status };
-        //}
+            if (isAdd)
+            {
+                await StorageHelper.WriteToTextFileAsync(FileKey, ret);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Delete<TResult>(Func<TResult, bool> predicate)
+        {
+            List<TResult> list = await GetAll<List<TResult>>();
+            if (list != null && list.Count > 0)
+            {
+                if (list.Any(predicate))
+                {
+                    list.RemoveAll(new Predicate<TResult>(predicate));
+                    await StorageHelper.WriteToTextFileAsync(FileKey, list);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 
-    //public class ResponseResult<T>
-    //{
-    //    public ResponseStatus Code { get; set; }
-    //    public T Data { get; set; }
-    //}
-
-    //public class PostData
-    //{
-    //    public string Key { get; set; }
-    //    public string Value { get; set; }
-
-    //}
-
-    //public enum ResponseStatus
-    //{
-    //    SUCCESS,
-    //    NOT_NETWORK,
-    //    SERVER_ERROR,
-    //    EXCEPTION,
-    //    PARAMETER_MISSING,
-    //}
 }
